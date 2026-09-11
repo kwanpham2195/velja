@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds build/Velja.app: compiles a release binary with SwiftPM, assembles the app bundle,
+# Builds build/Linkfork.app: compiles a release binary with SwiftPM, assembles the app bundle,
 # and signs it ad hoc so macOS will run it and register its URL handlers.
 #
 # Environment:
@@ -10,14 +10,15 @@ cd "$(dirname "$0")/.."
 
 version="${VELJA_VERSION:-1.0.0}"
 build_number="${VELJA_BUILD_NUMBER:-$(git rev-list --count HEAD 2>/dev/null || echo 1)}"
-app_bundle="build/Velja.app"
+app_bundle="build/Linkfork.app"
 
 swift build -c release --product Velja
 binary_path="$(swift build -c release --product Velja --show-bin-path)/Velja"
 
 rm -rf "$app_bundle"
 mkdir -p "$app_bundle/Contents/MacOS" "$app_bundle/Contents/Resources"
-cp "$binary_path" "$app_bundle/Contents/MacOS/Velja"
+# The SwiftPM product keeps its code name; the bundle executable must match CFBundleExecutable in Info.plist.
+cp "$binary_path" "$app_bundle/Contents/MacOS/Linkfork"
 cp Resources/AppIcon.icns "$app_bundle/Contents/Resources/AppIcon.icns"
 info_plist="$app_bundle/Contents/Info.plist"
 cp Resources/Info.plist "$info_plist"

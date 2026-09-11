@@ -2,7 +2,7 @@ import AppKit
 import VeljaCore
 
 /// Wires Velja together and receives links from macOS: "open URL" Apple events for web links and
-/// `velja:` URLs, and "open documents" for HTML files and URLs.
+/// `linkfork:` URLs, and "open documents" for HTML files and URLs.
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private let model = AppModel()
@@ -54,7 +54,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     /// HTML files opened with Velja, for example by double-clicking them in Finder, and URLs that
-    /// arrive as "open documents", such as `open -a Velja <url>`.
+    /// arrive as "open documents", such as `open -a Linkfork <url>`.
     func application(_ application: NSApplication, open urls: [URL]) {
         let sourceApp = LinkSourceApp.detectLinkSourceApp(
             of: NSAppleEventManager.shared().currentAppleEvent,
@@ -90,10 +90,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         linkHandler.handleIncomingLink(url, sourceApp: sourceApp)
     }
 
-    /// Runs a `velja:` URL as a command; an invalid one is refused with a beep so it never reaches a browser.
+    /// Runs a `linkfork:` URL as a command; an invalid one is refused with a beep so it never reaches a browser.
     private func handleVeljaURL(_ url: URL, sourceApp: LinkSourceApp?) {
         guard let command = VeljaOpenCommand.parseVeljaOpenCommand(url) else {
-            VeljaLog.routing.error("Ignored an invalid velja: URL")
+            VeljaLog.routing.error("Ignored an invalid linkfork: URL")
             NSSound.beep()
             return
         }

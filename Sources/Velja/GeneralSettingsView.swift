@@ -22,12 +22,12 @@ struct GeneralSettingsView: View {
 
             Section {
                 if model.isVeljaDefaultBrowser {
-                    Label("Velja is your default browser.", systemImage: "checkmark.circle.fill")
+                    Label("Linkfork is your default browser.", systemImage: "checkmark.circle.fill")
                         .foregroundStyle(.green)
                 } else {
                     VStack(alignment: .leading, spacing: 8) {
-                        Label("Velja is not your default browser, so links do not reach it yet.", systemImage: "exclamationmark.circle")
-                        Button("Set Velja as Default Browser…") {
+                        Label("Linkfork is not your default browser, so links do not reach it yet.", systemImage: "exclamationmark.circle")
+                        Button("Set Linkfork as Default Browser…") {
                             makeVeljaDefaultBrowser()
                         }
                         if let defaultBrowserMessage {
@@ -69,7 +69,7 @@ struct GeneralSettingsView: View {
                     }
                 if needsLoginItemApproval {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Approve Velja in System Settings > General > Login Items.")
+                        Text("Approve Linkfork in System Settings > General > Login Items.")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                         Button("Open Login Items Settings") {
@@ -86,7 +86,7 @@ struct GeneralSettingsView: View {
             } header: {
                 Text("App")
             } footer: {
-                Text("With the menu bar icon hidden, open Velja again from Finder or Spotlight to show this window. Link history stays on this Mac; turning it off deletes it.")
+                Text("With the menu bar icon hidden, open Linkfork again from Finder or Spotlight to show this window. Link history stays on this Mac; turning it off deletes it.")
                     .settingsFootnote()
             }
 
@@ -116,7 +116,7 @@ struct GeneralSettingsView: View {
             do {
                 try await DefaultBrowserSetting.makeVeljaDefaultBrowser()
             } catch {
-                defaultBrowserMessage = "The default browser was not changed. You can also choose Velja in System Settings > Desktop & Dock > Default web browser."
+                defaultBrowserMessage = "The default browser was not changed. You can also choose Linkfork in System Settings > Desktop & Dock > Default web browser."
                 VeljaLog.system.error("Default browser change declined or failed: \(error.localizedDescription, privacy: .public)")
             }
             model.refreshDefaultBrowserStatus()

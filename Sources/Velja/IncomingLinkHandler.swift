@@ -1,7 +1,7 @@
 import AppKit
 import VeljaCore
 
-/// Takes every link that reaches Velja, from clicks in other apps, `velja:open` URLs, the Services
+/// Takes every link that reaches Velja, from clicks in other apps, `linkfork:open` URLs, the Services
 /// menu, the clipboard, or the history, and opens it where the settings say.
 ///
 /// The steps: expand short links, remove tracking parameters, ask ``LinkRouter`` for a decision, then
@@ -35,7 +35,7 @@ final class IncomingLinkHandler {
         }
     }
 
-    /// Handles `velja:open?url=…`. A named browser must be an installed browser; otherwise the
+    /// Handles `linkfork:open?url=…`. A named browser must be an installed browser; otherwise the
     /// picker is shown, so the command cannot open links in arbitrary apps.
     func handleVeljaOpenCommand(_ command: VeljaOpenCommand, sourceApp: LinkSourceApp?) {
         guard command.forcesBrowserPicker || command.browserTarget != nil else {

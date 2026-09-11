@@ -5,9 +5,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Velja</string>
+	<string>Linkfork</string>
 	<key>CFBundleExecutable</key>
-	<string>Velja</string>
+	<string>Linkfork</string>
 	<key>CFBundleIconFile</key>
 	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Velja</string>
+	<string>Linkfork</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -49,10 +49,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>CFBundleURLName</key>
-			<string>Velja command URL</string>
+			<string>Linkfork command URL</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>velja</string>
+				<string>linkfork</string>
 			</array>
 		</dict>
 	</array>
@@ -89,12 +89,12 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Open Link with Velja</string>
+				<string>Open Link with Linkfork</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>openLinkService</string>
 			<key>NSPortName</key>
-			<string>Velja</string>
+			<string>Linkfork</string>
 			<key>NSRequiredContext</key>
 			<dict/>
 			<key>NSSendTypes</key>

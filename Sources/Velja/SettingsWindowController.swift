@@ -25,7 +25,7 @@ final class SettingsWindowController {
     private func makeSettingsWindow() -> NSWindow {
         let hostingController = NSHostingController(rootView: SettingsView(model: model, linkHandler: linkHandler))
         let settingsWindow = NSWindow(contentViewController: hostingController)
-        settingsWindow.title = "Velja Settings"
+        settingsWindow.title = "Linkfork Settings"
         settingsWindow.styleMask = [.titled, .closable, .miniaturizable, .resizable]
         settingsWindow.isReleasedWhenClosed = false
         settingsWindow.setContentSize(NSSize(width: 680, height: 560))

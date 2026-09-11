@@ -45,7 +45,7 @@ public enum RuleExportError: Error, Equatable, LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .unsupportedFormatVersion(let version):
-            "Rule export format version \(version) is newer than this version of Velja supports."
+            "Rule export format version \(version) is newer than this version of Linkfork supports."
         }
     }
 }

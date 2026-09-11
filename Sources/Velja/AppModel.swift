@@ -71,13 +71,13 @@ final class AppModel {
             settings = VeljaSettings()
             isFirstLaunch = false
             isSettingsSavingBlocked = false
-            loadProblem = "Velja could not read its settings file and started with default settings. The old file was moved to \(backupURL.path(percentEncoded: false))."
+            loadProblem = "Linkfork could not read its settings file and started with default settings. The old file was moved to \(backupURL.path(percentEncoded: false))."
             VeljaLog.storage.error("Settings file unreadable: \(errorDescription, privacy: .public)")
         case .unreadable(let errorDescription, nil):
             settings = VeljaSettings()
             isFirstLaunch = false
             isSettingsSavingBlocked = true
-            loadProblem = "Velja could not read its settings file and started with default settings; changes will not be saved until the file is fixed or removed."
+            loadProblem = "Linkfork could not read its settings file and started with default settings; changes will not be saved until the file is fixed or removed."
             VeljaLog.storage.error("Settings file unreadable and could not be moved aside; settings will not be saved: \(errorDescription, privacy: .public)")
         }
 

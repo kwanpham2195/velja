@@ -32,7 +32,7 @@ public enum LinkRoutingReason: Hashable, Sendable {
     case primaryBrowser
     /// The configured browser or profile is not installed anymore, so the picker is shown instead.
     case unavailableBrowser(BrowserTarget)
-    /// The link was opened with a `velja:open` URL that named a browser or asked for the picker.
+    /// The link was opened with a `linkfork:open` URL that named a browser or asked for the picker.
     case veljaOpenCommand
 }
 
@@ -44,7 +44,7 @@ extension LinkRoutingReason {
         case .matchedRule(_, let name): name.isEmpty ? "Rule" : "Rule: \(name)"
         case .primaryBrowser: "Primary browser"
         case .unavailableBrowser: "Configured browser is not installed"
-        case .veljaOpenCommand: "velja:open command"
+        case .veljaOpenCommand: "linkfork:open command"
         }
     }
 }

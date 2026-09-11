@@ -7,13 +7,13 @@ private let decodedLink = URL(string: "https://example.com/?a=1&b=2")!
 
 struct VeljaOpenCommandTests {
     @Test(arguments: [
-        ("velja:open?url=\(encodedLink)", VeljaOpenCommand(url: decodedLink)),
-        ("velja://open?url=\(encodedLink)&prompt", VeljaOpenCommand(url: decodedLink, forcesBrowserPicker: true)),
-        ("velja:///open?url=\(encodedLink)&prompt=FALSE", VeljaOpenCommand(url: decodedLink)),
-        ("velja://open/?url=\(encodedLink)&prompt=No", VeljaOpenCommand(url: decodedLink)),
-        ("VELJA:open?url=\(encodedLink)&prompt=0", VeljaOpenCommand(url: decodedLink)),
+        ("linkfork:open?url=\(encodedLink)", VeljaOpenCommand(url: decodedLink)),
+        ("linkfork://open?url=\(encodedLink)&prompt", VeljaOpenCommand(url: decodedLink, forcesBrowserPicker: true)),
+        ("linkfork:///open?url=\(encodedLink)&prompt=FALSE", VeljaOpenCommand(url: decodedLink)),
+        ("linkfork://open/?url=\(encodedLink)&prompt=No", VeljaOpenCommand(url: decodedLink)),
+        ("LINKFORK:open?url=\(encodedLink)&prompt=0", VeljaOpenCommand(url: decodedLink)),
         (
-            "velja:open?url=\(encodedLink)&prompt=1&app=com.google.Chrome&profile=Profile%201",
+            "linkfork:open?url=\(encodedLink)&prompt=1&app=com.google.Chrome&profile=Profile%201",
             VeljaOpenCommand(
                 url: decodedLink,
                 forcesBrowserPicker: true,
@@ -26,12 +26,12 @@ struct VeljaOpenCommandTests {
     }
 
     @Test(arguments: [
-        "velja:open",
-        "velja:open?url=file%3A%2F%2F%2Fetc%2Fhosts",
-        "velja:open?url=javascript%3Aalert(1)",
-        "velja:settings?url=\(encodedLink)",
-        "velja://open/extra?url=\(encodedLink)",
-        "velja:open/extra?url=\(encodedLink)",
+        "linkfork:open",
+        "linkfork:open?url=file%3A%2F%2F%2Fetc%2Fhosts",
+        "linkfork:open?url=javascript%3Aalert(1)",
+        "linkfork:settings?url=\(encodedLink)",
+        "linkfork://open/extra?url=\(encodedLink)",
+        "linkfork:open/extra?url=\(encodedLink)",
         "https://example.com/open?url=\(encodedLink)",
     ])
     func rejectsOtherCommands(_ commandText: String) {

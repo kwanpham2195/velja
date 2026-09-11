@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-The first version of Velja, a browser picker for macOS that routes every clicked link to the right browser, browser profile, or desktop app.
+The first version of Linkfork, a browser picker for macOS that routes every clicked link to the right browser, browser profile, or desktop app.
 
 ### What's new
 
@@ -12,5 +12,5 @@ The first version of Velja, a browser picker for macOS that routes every clicked
 - Add app links for Zoom, Microsoft Teams, Figma, Spotify, Discord, and Apple Music (off by default); a link that comes from the app itself goes to your browser instead.
 - Add the primary browser and the alternative browser, which is used while the Fn (Globe) key is held.
 - Add optional tracking parameter removal and short link expansion that contacts only the link shortener.
-- Add the `velja:open` URL scheme, which accepts only web links and installed browsers, plus the Open Link with Velja service and Open Link from Clipboard in the menu bar.
+- Add the `linkfork:open` URL scheme, which accepts only web links and installed browsers, plus the Open Link with Linkfork service and Open Link from Clipboard in the menu bar.
 - Add rule import and export, optional link history with the detected source app, and launch at login.

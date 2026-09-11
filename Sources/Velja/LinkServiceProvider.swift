@@ -1,7 +1,7 @@
 import AppKit
 import VeljaCore
 
-/// Provides the "Open Link with Velja" system service, so a selected link in any app can be sent
+/// Provides the "Open Link with Linkfork" system service, so a selected link in any app can be sent
 /// through Velja's rules. Declared under `NSServices` in Info.plist.
 @MainActor
 final class LinkServiceProvider: NSObject {

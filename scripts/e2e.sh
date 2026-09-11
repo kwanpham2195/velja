@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# End-to-end tests for Velja.
+# End-to-end tests for Linkfork.
 #
-# Runs the real build/Velja.app against a temporary settings folder and sends it links through
+# Runs the real build/Linkfork.app against a temporary settings folder and sends it links through
 # Launch Services with `open`, the same path a clicked link takes. Links are routed to a fake
 # browser (e2e/FakeBrowser) that records every link and launch argument it receives, so no real
 # browser opens and your real settings are never read or written.
@@ -9,16 +9,16 @@
 # Two links in this suite end in the browser picker; it shows on screen until the run finishes.
 #
 # Environment:
-#   VELJA_E2E_SKIP_BUILD=1   use the existing build/Velja.app instead of rebuilding it
+#   VELJA_E2E_SKIP_BUILD=1   use the existing build/Linkfork.app instead of rebuilding it
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 lsregister=/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister
-velja_app="$PWD/build/Velja.app"
+velja_app="$PWD/build/Linkfork.app"
 fake_bundle_id="com.kwanpham.VeljaE2EBrowser"
 
-if pgrep -x Velja >/dev/null; then
-  echo "e2e: another Velja is running. Quit it first; Launch Services would deliver the test links to it." >&2
+if pgrep -x Linkfork >/dev/null; then
+  echo "e2e: another Linkfork is running. Quit it first; Launch Services would deliver the test links to it." >&2
   exit 1
 fi
 
@@ -26,7 +26,7 @@ if [[ "${VELJA_E2E_SKIP_BUILD:-}" != 1 ]]; then
   ./scripts/build-app.sh >/dev/null
 fi
 
-# Inside build/, not /tmp: Launch Services never returns apps registered from /tmp, so Velja would
+# Inside build/, not /tmp: Launch Services never returns apps registered from /tmp, so Linkfork would
 # not see the fake browser.
 mkdir -p build
 work_dir="$(cd "$(mktemp -d "$PWD/build/e2e-run.XXXXXX")" && pwd -P)"
@@ -84,7 +84,7 @@ cat > "$support_dir/Settings.json" <<JSON
 }
 JSON
 
-# --- Launch Velja ---------------------------------------------------------------------------
+# --- Launch Linkfork ------------------------------------------------------------------------
 
 /usr/bin/log stream --level info --style compact --predicate 'subsystem == "com.kwanpham.Velja"' > "$velja_log" 2>&1 &
 log_stream_pid=$!
@@ -92,7 +92,7 @@ sleep 1
 
 VELJA_SUPPORT_DIRECTORY="$support_dir" \
 VELJA_CHROMIUM_USER_DATA_DIRECTORIES="$fake_bundle_id=$chromium_user_data" \
-  "$velja_app/Contents/MacOS/Velja" >"$work_dir/velja.stdout" 2>&1 &
+  "$velja_app/Contents/MacOS/Linkfork" >"$work_dir/velja.stdout" 2>&1 &
 velja_pid=$!
 
 # --- Helpers --------------------------------------------------------------------------------
@@ -118,8 +118,8 @@ wait_for_line() {
 
 regex_escape() { printf '%s' "$1" | sed -e 's/[]\/$*.^|?+(){}[]/\\&/g'; }
 
-# A regex for a log line from this run's Velja process containing the literal message.
-velja_log_pattern() { echo "Velja\\[$velja_pid:.*$(regex_escape "$1")"; }
+# A regex for a log line from this run's Linkfork process containing the literal message.
+velja_log_pattern() { echo "Linkfork\\[$velja_pid:.*$(regex_escape "$1")"; }
 
 send_link() { open -a "$velja_app" "$1"; }
 
@@ -130,7 +130,7 @@ expect_record() {
 
 expect_velja_log() {
   local name="$1" message="$2"
-  if wait_for_line "$velja_log" "$(velja_log_pattern "$message")"; then pass "$name"; else fail "$name" "expected Velja log line containing: $message"; fi
+  if wait_for_line "$velja_log" "$(velja_log_pattern "$message")"; then pass "$name"; else fail "$name" "expected Linkfork log line containing: $message"; fi
 }
 
 expect_no_record() {
@@ -139,12 +139,12 @@ expect_no_record() {
   if grep -qF -- "$fragment" "$record_file"; then fail "$name" "the fake browser received a link containing: $fragment"; else pass "$name"; fi
 }
 
-echo "Velja end-to-end tests"
+echo "Linkfork end-to-end tests"
 
 if wait_for_line "$velja_log" "$(velja_log_pattern "Menu bar icon added")"; then
-  pass "Velja launches with the test settings"
+  pass "Linkfork launches with the test settings"
 else
-  fail "Velja launches with the test settings" "no startup log line; stdout:" "$(cat "$work_dir/velja.stdout")"
+  fail "Linkfork launches with the test settings" "no startup log line; stdout:" "$(cat "$work_dir/velja.stdout")"
   exit 1
 fi
 
@@ -158,17 +158,17 @@ send_link 'https://docs.work.example/a?b=1'
 expect_record "domain rule opens the link in a Chromium-style profile" \
   "^launch${tab}--profile-directory=Profile 1${tab}$(regex_escape 'https://docs.work.example/a?b=1')\$"
 
-send_link "velja:open?url=https%3A%2F%2Fexample.com%2Fcommand&app=$fake_bundle_id"
-expect_record "velja:open opens the named browser" \
+send_link "linkfork:open?url=https%3A%2F%2Fexample.com%2Fcommand&app=$fake_bundle_id"
+expect_record "linkfork:open opens the named browser" \
   "^open${tab}$(regex_escape 'https://example.com/command')\$"
 
-printf '<!doctype html><title>Velja e2e</title>\n' > "$work_dir/page.html"
+printf '<!doctype html><title>Linkfork e2e</title>\n' > "$work_dir/page.html"
 open -a "$velja_app" "$work_dir/page.html"
 expect_record "HTML files open in the primary browser" \
   "^open${tab}file://.*/page\\.html\$"
 
 # The "From fake browser" rule needs both its domain and the fake browser as the source app.
-# Links sent with `open` have no app of their own, so Velja falls back to the frontmost app; wait
+# Links sent with `open` have no app of their own, so Linkfork falls back to the frontmost app; wait
 # until the fake browser has quit so that fallback cannot be the fake browser.
 deadline=$((SECONDS + 15))
 while pgrep -if "$fake_app/Contents/MacOS/FakeBrowser" >/dev/null && (( SECONDS < deadline )); do
@@ -214,19 +214,19 @@ fi
 
 # --- Tests: links that must not reach a browser ---------------------------------------------
 
-open -a "$velja_app" 'velja:open?url=file%3A%2F%2F%2Fetc%2Fhosts'
-expect_velja_log "velja:open refuses local files" "Ignored an invalid velja: URL"
-expect_no_record "velja:open never passes a local file on" "/etc/hosts"
+open -a "$velja_app" 'linkfork:open?url=file%3A%2F%2F%2Fetc%2Fhosts'
+expect_velja_log "linkfork:open refuses local files" "Ignored an invalid linkfork: URL"
+expect_no_record "linkfork:open never passes a local file on" "/etc/hosts"
 
-send_link 'velja:open?url=https%3A%2F%2Fexample.com%2Fterminal-attempt&app=com.apple.Terminal'
-expect_velja_log "velja:open with a non-browser app shows the picker" "Showing browser picker (velja:open command)"
-expect_no_record "velja:open with a non-browser app opens nothing by itself" "terminal-attempt"
+send_link 'linkfork:open?url=https%3A%2F%2Fexample.com%2Fterminal-attempt&app=com.apple.Terminal'
+expect_velja_log "linkfork:open with a non-browser app shows the picker" "Showing browser picker (linkfork:open command)"
+expect_no_record "linkfork:open with a non-browser app opens nothing by itself" "terminal-attempt"
 
 send_link 'https://gone.example/x'
 expect_velja_log "a rule for an uninstalled browser falls back to the picker" "Showing browser picker (Configured browser is not installed)"
 expect_no_record "a rule for an uninstalled browser opens nothing by itself" "gone.example"
 
-if kill -0 "$velja_pid" 2>/dev/null; then pass "Velja is still running"; else fail "Velja is still running" "Velja exited during the run"; fi
+if kill -0 "$velja_pid" 2>/dev/null; then pass "Linkfork is still running"; else fail "Linkfork is still running" "Linkfork exited during the run"; fi
 
 echo "$passed passed, $failed failed"
 [[ "$failed" -eq 0 ]]

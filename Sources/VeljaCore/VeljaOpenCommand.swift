@@ -1,8 +1,8 @@
 import Foundation
 
-/// A parsed `velja:open` URL, which lets scripts and other apps open a link through Velja.
+/// A parsed `linkfork:open` URL, which lets scripts and other apps open a link through Velja.
 ///
-/// Format: `velja:open?url=<percent-encoded link>` with optional `prompt` (always show the browser
+/// Format: `linkfork:open?url=<percent-encoded link>` with optional `prompt` (always show the browser
 /// picker; `prompt=false`, `0`, or `no` turn it off), `app=<browser bundle identifier>`, and `profile=<profile directory>`.
 /// Only http and https links are accepted, so a web page cannot use this to open local files.
 public struct VeljaOpenCommand: Equatable, Sendable {
@@ -18,10 +18,10 @@ public struct VeljaOpenCommand: Equatable, Sendable {
     }
 
     /// The URL scheme Velja registers for these commands.
-    public static let urlScheme = "velja"
+    public static let urlScheme = "linkfork"
 
-    /// Parses `velja:open?…`, `velja://open?…`, and `velja:///open?…`. Returns `nil` for any other URL,
-    /// extra path such as `velja://open/extra`, or a missing or non-web `url`.
+    /// Parses `linkfork:open?…`, `linkfork://open?…`, and `linkfork:///open?…`. Returns `nil` for any other URL,
+    /// extra path such as `linkfork://open/extra`, or a missing or non-web `url`.
     public static func parseVeljaOpenCommand(_ commandURL: URL) -> VeljaOpenCommand? {
         guard commandURL.scheme?.lowercased() == urlScheme,
               let components = URLComponents(url: commandURL, resolvingAgainstBaseURL: false) else {

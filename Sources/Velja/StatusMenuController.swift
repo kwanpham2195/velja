@@ -23,10 +23,10 @@ final class StatusMenuController: NSObject, NSMenuDelegate, NSMenuItemValidation
                 return
             }
             let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-            let image = NSImage(systemSymbolName: "arrow.triangle.branch", accessibilityDescription: "Velja")
+            let image = NSImage(systemSymbolName: "arrow.triangle.branch", accessibilityDescription: "Linkfork")
             image?.isTemplate = true
             item.button?.image = image
-            item.button?.toolTip = "Velja"
+            item.button?.toolTip = "Linkfork"
             let menu = NSMenu()
             menu.delegate = self
             item.menu = menu
@@ -45,7 +45,7 @@ final class StatusMenuController: NSObject, NSMenuDelegate, NSMenuItemValidation
         model.refreshInstalledBrowsers()
 
         if !model.isVeljaDefaultBrowser {
-            menu.addItem(makeItem("Set Velja as Default Browser…", action: #selector(makeVeljaDefaultBrowser)))
+            menu.addItem(makeItem("Set Linkfork as Default Browser…", action: #selector(makeVeljaDefaultBrowser)))
             menu.addItem(.separator())
         }
 
@@ -83,7 +83,7 @@ final class StatusMenuController: NSObject, NSMenuDelegate, NSMenuItemValidation
         let settingsItem = makeItem("Settings…", action: #selector(openSettings))
         settingsItem.keyEquivalent = ","
         menu.addItem(settingsItem)
-        let quitItem = NSMenuItem(title: "Quit Velja", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        let quitItem = NSMenuItem(title: "Quit Linkfork", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         menu.addItem(quitItem)
     }
 

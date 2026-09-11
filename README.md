@@ -1,8 +1,8 @@
-# Velja
+# Linkfork
 
-Velja is a browser picker for macOS. You make it your default browser, and it sends each link you click to the right browser, browser profile, or desktop app. When no rule applies, it shows a small picker next to the pointer so you can choose.
+Linkfork is a browser picker for macOS. You make it your default browser, and it sends each link you click to the right browser, browser profile, or desktop app. When no rule applies, it shows a small picker next to the pointer so you can choose.
 
-This project is an independent, open implementation of the idea behind Sindre Sorhus's [Velja](https://sindresorhus.com/velja). It is not affiliated with that app and uses its own bundle identifier (`com.kwanpham.Velja`).
+Linkfork is an independent, open-source project inspired by Sindre Sorhus's [Velja](https://sindresorhus.com/velja) and is not affiliated with it.
 
 ## Requirements
 
@@ -12,11 +12,11 @@ This project is an independent, open implementation of the idea behind Sindre So
 ## Build and install
 
 ```sh
-make app       # builds build/Velja.app (release, signed ad hoc)
+make app       # builds build/Linkfork.app (release, signed ad hoc)
 make install   # copies it to /Applications, registers it, and opens it
 ```
 
-On first launch, Velja opens its settings window. Click **Set Velja as Default Browser…** and confirm the macOS dialog. You can also pick Velja in System Settings > Desktop & Dock > Default web browser. Velja only sees links while it is the default browser.
+On first launch, Linkfork opens its settings window. Click **Set Linkfork as Default Browser…** and confirm the macOS dialog. You can also pick Linkfork in System Settings > Desktop & Dock > Default web browser. Linkfork only sees links while it is the default browser.
 
 To install somewhere else, pass `INSTALL_DIR`:
 
@@ -26,14 +26,14 @@ make install INSTALL_DIR="$HOME/Applications"
 
 ## How a link is routed
 
-Velja checks these in order and stops at the first one that applies:
+Linkfork checks these in order and stops at the first one that applies:
 
 1. **Fn (Globe) key.** Holding Fn while clicking a link sends it to the alternative browser and skips everything below.
 2. **App links.** Links such as Zoom meetings open in their desktop app when it's installed.
 3. **Rules**, from top to bottom.
 4. **Primary browser.** This is either a fixed browser or the browser picker (the default).
 
-If a rule or setting points at a browser or profile that's no longer installed, Velja shows the picker instead of losing the link.
+If a rule or setting points at a browser or profile that's no longer installed, Linkfork shows the picker instead of losing the link.
 
 ## Browser picker
 
@@ -85,34 +85,34 @@ Two options in Settings > General change links before they're routed. Both are o
 
 **Remove tracking parameters** strips parameters such as `utm_source`, `fbclid`, `gclid`, and `mc_eid` from every site. It also strips site-specific ones such as `si` on YouTube and Spotify and `s` and `t` on X. Other parameters and the fragment stay exactly as they were. For example, `https://foo.com/?utm_source=x&page=2` becomes `https://foo.com/?page=2`.
 
-**Expand short links** follows redirects of known link shorteners (bit.ly, t.co, tinyurl.com, and others) before routing, so rules see the real site. Velja sends a cookie-less request to the shortener only. It stops at the first redirect that leaves the shortener, so the destination site is never contacted, and it gives up after three seconds.
+**Expand short links** follows redirects of known link shorteners (bit.ly, t.co, tinyurl.com, and others) before routing, so rules see the real site. Linkfork sends a cookie-less request to the shortener only. It stops at the first redirect that leaves the shortener, so the destination site is never contacted, and it gives up after three seconds.
 
-## Opening links through Velja
+## Opening links through Linkfork
 
-Any script or app can send a link through Velja with a `velja:open` URL:
+Any script or app can send a link through Linkfork with a `linkfork:open` URL:
 
 ```sh
 # Route the link with your rules
-open "velja:open?url=https%3A%2F%2Fgithub.com%2Fapple%2Fswift"
+open "linkfork:open?url=https%3A%2F%2Fgithub.com%2Fapple%2Fswift"
 
 # Always show the picker
-open "velja:open?url=https%3A%2F%2Fgithub.com&prompt"
+open "linkfork:open?url=https%3A%2F%2Fgithub.com&prompt"
 
 # Open in a specific browser and profile
-open "velja:open?url=https%3A%2F%2Fgithub.com&app=com.google.Chrome&profile=Profile%201"
+open "linkfork:open?url=https%3A%2F%2Fgithub.com&app=com.google.Chrome&profile=Profile%201"
 ```
 
-The `url` value must be a percent-encoded http or https link. `app` must name an installed browser; any other app shows the picker instead. Because web pages can trigger these URLs, Velja never opens local files or arbitrary apps from them.
+The `url` value must be a percent-encoded http or https link. `app` must name an installed browser; any other app shows the picker instead. Because web pages can trigger these URLs, Linkfork never opens local files or arbitrary apps from them.
 
-Velja also adds an **Open Link with Velja** item to the Services menu for selected text, and the menu bar icon has **Open Link from Clipboard**.
+Linkfork also adds an **Open Link with Linkfork** item to the Services menu for selected text, and the menu bar icon has **Open Link from Clipboard**.
 
 ## Settings, history, and logs
 
-Velja stores its settings in `~/Library/Application Support/Velja/Settings.json`. If that file can't be read, Velja renames it to `Settings.unreadable-<timestamp>.json`, starts with defaults, and says so in Settings > General.
+Linkfork stores its settings in `~/Library/Application Support/Velja/Settings.json`. If that file can't be read, Linkfork renames it to `Settings.unreadable-<timestamp>.json`, starts with defaults, and says so in Settings > General.
 
-Link history is off by default. When you turn it on, Velja keeps the last 200 links in `History.json` next to the settings, with the source app it detected and where each link opened. This is the quickest way to find the bundle identifier to use in a source app rule. Turning history off deletes it.
+Link history is off by default. When you turn it on, Linkfork keeps the last 200 links in `History.json` next to the settings, with the source app it detected and where each link opened. This is the quickest way to find the bundle identifier to use in a source app rule. Turning history off deletes it.
 
-Velja logs routing decisions to the unified log:
+Linkfork logs routing decisions to the unified log:
 
 ```sh
 log stream --level info --predicate 'subsystem == "com.kwanpham.Velja"'
@@ -122,9 +122,9 @@ Links show as `<private>` in the log. The decision, target browser, and source a
 
 ## Limitations
 
-- Velja can't see links you click inside a browser, because the browser opens those itself.
+- Linkfork can't see links you click inside a browser, because the browser opens those itself.
 - Firefox, Safari, and Arc profiles aren't supported. Those browsers still work as plain entries.
-- The source app comes from the process that asked macOS to open the link. When that's a command-line tool such as `open` in a terminal, Velja uses the app you were in, which is usually the terminal.
+- The source app comes from the process that asked macOS to open the link. When that's a command-line tool such as `open` in a terminal, Linkfork uses the app you were in, which is usually the terminal.
 - Holding Fn while pressing arrow or function keys also sets the Fn flag, so avoid that combination while clicking a link.
 
 ## Development
@@ -137,17 +137,17 @@ make run        # build the app bundle and open it
 make snapshots  # render every settings tab and the picker to /tmp/velja-snapshots
 ```
 
-The end-to-end suite is the main safety net. It builds `Velja.app`, starts it with a temporary settings folder, and sends it links through Launch Services with `open`, the same path a clicked link takes. The links go to a fake browser (`e2e/FakeBrowser`) that records every link and launch argument it receives, including Chromium-style `--profile-directory` launches. No real browser opens, and your real settings are never touched. Quit any running Velja before you start the suite. Two of its links end in the browser picker, which stays on screen until the run finishes.
+The end-to-end suite is the main safety net. It builds `Linkfork.app`, starts it with a temporary settings folder, and sends it links through Launch Services with `open`, the same path a clicked link takes. The links go to a fake browser (`e2e/FakeBrowser`) that records every link and launch argument it receives, including Chromium-style `--profile-directory` launches. No real browser opens, and your real settings are never touched. Quit any running Linkfork before you start the suite. Two of its links end in the browser picker, which stays on screen until the run finishes.
 
-The suite relies on two environment variables that only take effect when Velja is started with them:
+The suite relies on two environment variables that only take effect when Linkfork is started with them:
 
 | Variable | Effect |
 | --- | --- |
 | `VELJA_SUPPORT_DIRECTORY` | Folder for `Settings.json` and `History.json` instead of `~/Library/Application Support/Velja` |
-| `VELJA_CHROMIUM_USER_DATA_DIRECTORIES` | Extra Chromium-style browsers, as `bundle.id=/path/to/user-data;other.id=/path`. Velja reads profiles from `Local State` in each folder. |
+| `VELJA_CHROMIUM_USER_DATA_DIRECTORIES` | Extra Chromium-style browsers, as `bundle.id=/path/to/user-data;other.id=/path`. Linkfork reads profiles from `Local State` in each folder. |
 
 `make test` works with only the Command Line Tools: `scripts/test.sh` adds the Swift Testing framework and plugin paths that SwiftPM can't find on its own there.
 
-The code is split into two targets. `VeljaCore` holds everything that decides where a link goes (matching, rules, routing, tracking parameter cleanup, app link rewrites, profile parsing, settings files) and has no AppKit dependency. `Velja` is the AppKit and SwiftUI app: Apple event handling, the picker panel, the menu bar item, and the settings window. `make snapshots` renders the UI to PNG files without screen recording permission; it uses a temporary settings folder and never touches your real settings.
+The code is split into two targets, which keep the project's original code name. `VeljaCore` holds everything that decides where a link goes (matching, rules, routing, tracking parameter cleanup, app link rewrites, profile parsing, settings files) and has no AppKit dependency. `Velja` is the AppKit and SwiftUI app: Apple event handling, the picker panel, the menu bar item, and the settings window. `make snapshots` renders the UI to PNG files without screen recording permission; it uses a temporary settings folder and never touches your real settings.
 
 The app icon is drawn by `scripts/generate-app-icon.swift`. Run `make icon` to regenerate `Resources/AppIcon.icns`.

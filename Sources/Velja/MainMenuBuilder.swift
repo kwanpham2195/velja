@@ -7,14 +7,14 @@ enum MainMenuBuilder {
     static func makeMainMenu(settingsTarget: AnyObject, settingsAction: Selector) -> NSMenu {
         let mainMenu = NSMenu()
 
-        let appMenu = NSMenu(title: "Velja")
-        appMenu.addItem(withTitle: "About Velja", action: #selector(NSApplication.orderFrontStandardAboutPanel(_:)), keyEquivalent: "")
+        let appMenu = NSMenu(title: "Linkfork")
+        appMenu.addItem(withTitle: "About Linkfork", action: #selector(NSApplication.orderFrontStandardAboutPanel(_:)), keyEquivalent: "")
         appMenu.addItem(.separator())
         let settingsItem = appMenu.addItem(withTitle: "Settings…", action: settingsAction, keyEquivalent: ",")
         settingsItem.target = settingsTarget
         appMenu.addItem(.separator())
-        appMenu.addItem(withTitle: "Hide Velja", action: #selector(NSApplication.hide(_:)), keyEquivalent: "h")
-        appMenu.addItem(withTitle: "Quit Velja", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        appMenu.addItem(withTitle: "Hide Linkfork", action: #selector(NSApplication.hide(_:)), keyEquivalent: "h")
+        appMenu.addItem(withTitle: "Quit Linkfork", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         addSubmenu(appMenu, to: mainMenu)
 
         let editMenu = NSMenu(title: "Edit")

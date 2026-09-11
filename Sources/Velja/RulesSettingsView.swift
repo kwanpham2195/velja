@@ -139,7 +139,7 @@ struct RulesSettingsView: View {
     private func exportRules() {
         let savePanel = NSSavePanel()
         savePanel.allowedContentTypes = [.json]
-        savePanel.nameFieldStringValue = "Velja Rules.json"
+        savePanel.nameFieldStringValue = "Linkfork Rules.json"
         guard savePanel.runModal() == .OK, let fileURL = savePanel.url else {
             return
         }

@@ -15,21 +15,21 @@ test:
 e2e:
 	./scripts/e2e.sh
 
-## Release app bundle at build/Velja.app.
+## Release app bundle at build/Linkfork.app.
 app:
 	./scripts/build-app.sh
 
 ## Build the app bundle and open it.
 run: app
-	open build/Velja.app
+	open build/Linkfork.app
 
-## Quit a running copy, replace $(INSTALL_DIR)/Velja.app, register it with Launch Services, and open it.
+## Quit a running copy, replace $(INSTALL_DIR)/Linkfork.app, register it with Launch Services, and open it.
 install: app
-	-pkill -x Velja
-	rm -rf "$(INSTALL_DIR)/Velja.app"
-	ditto build/Velja.app "$(INSTALL_DIR)/Velja.app"
-	"$(LSREGISTER)" -f "$(INSTALL_DIR)/Velja.app"
-	open "$(INSTALL_DIR)/Velja.app"
+	-pkill -x Linkfork
+	rm -rf "$(INSTALL_DIR)/Linkfork.app"
+	ditto build/Linkfork.app "$(INSTALL_DIR)/Linkfork.app"
+	"$(LSREGISTER)" -f "$(INSTALL_DIR)/Linkfork.app"
+	open "$(INSTALL_DIR)/Linkfork.app"
 
 ## Render the settings tabs and the browser picker to /tmp/velja-snapshots (debug build only).
 snapshots: build
